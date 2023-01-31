@@ -1,6 +1,9 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Vidly.Data;
+using Vidly.Mappings;
+
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("VidlyContextConnection") ?? throw new InvalidOperationException("Connection string 'VidlyContextConnection' not found.");
 
@@ -12,6 +15,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+Mapper.Initialize(config => config.AddProfile<MappingProfile>());
 
 var app = builder.Build();
 
@@ -27,7 +32,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseAuthentication();;
+app.UseAuthentication(); ;
 
 app.UseAuthorization();
 
